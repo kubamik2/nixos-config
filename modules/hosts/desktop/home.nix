@@ -1,7 +1,7 @@
 { pkgs, ... }: {
   imports = [
     ../../home-manager/user.nix
-    ../../home-manager/plasma.nix
+    ../../home-manager/plasma
   ];
 
   programs.bash = {
