@@ -7,6 +7,8 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware.nix
+    ../../nixos/gaming.nix
+    ../../nixos/plasma_delay_fix.nix
   ];
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -16,10 +18,6 @@
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -51,6 +49,9 @@
   # Configure console keymap
   console.keyMap = "pl2";
 
+  # Enable CUPS to print documents
+  services.printing.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kubamik2 = {
     isNormalUser = true;
@@ -58,46 +59,23 @@
     extraGroups = ["networkmanager" "wheel"];
     packages = with pkgs; [];
   };
-  services.gvfs.enable = true;
-  programs.xfconf.enable = true;
-  programs.dconf.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  services.xserver.videoDrivers = [
-    "modesetting"
-    "nvidia"
-  ];
+  # Enable the KDE Plasma Desktop Environment
+  services.desktopManager.plasma6.enable = true;
+  services.displayManager.plasma-login-manager.enable = true;
 
-  programs.hyprland = {
+  # Enable sound with pipewire
+  services.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
     enable = true;
-    xwayland.enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
   };
-  services.displayManager = {
-    defaultSession = "hyprland";
-    sddm = {
-      enable = true;
-      wayland.enable = true;
-      enableHidpi = true;
-      wayland.compositor = "kwin";
-      settings = {
-        Theme = {
-          CursorTheme = "Bibata-Modern-Classic";
-          CursorSize = "24";
-        };
-      };
-    };
-  };
-  programs.silentSDDM = {
-    enable = true;
-    theme = "nord";
-  };
-
-  # Power profiles
-  services.power-profiles-daemon.enable = true;
-
-  services.pipewire.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -105,13 +83,11 @@
     unzip
     git
     inputs.nixvim-config.packages.x86_64-linux.default
-    bibata-cursors
   ];
 
   environment.variables.EDITOR = "nvim";
 
   environment.sessionVariables = {
-    WLR_NO_HARDWARE_CURSORS = "1";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     LIBVA_DRIVER_NAME = "nvidia";
     NIXOS_OZONE_WL = "1";
@@ -121,31 +97,25 @@
     nerd-fonts.jetbrains-mono
   ];
 
+  # Nvidia drivers setup
+  services.xserver.videoDrivers = [
+    "modesetting"
+    "nvidia"
+  ];
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
   };
   hardware.nvidia = {
     package = config.boot.kernelPackages.nvidiaPackages.stable;
-
-    prime = {
-      offload = {
-        enable = true;
-        enableOffloadCmd = true;
-      };
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
-    };
-
     modesetting.enable = true;
-    powerManagement = {
-      enable = false;
-      finegrained = false;
-    };
-    open = false;
+    # powerManagement = {
+    #   enable = false;
+    #   finegrained = false;
+    # };
+    open = true;
     nvidiaSettings = true;
   };
-
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

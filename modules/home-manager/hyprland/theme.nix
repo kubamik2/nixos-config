@@ -23,6 +23,14 @@
       name = "Bibata-Modern-Classic";
       size = 12;
     };
+
+    icons = {
+      enable = true;
+      dark = "Papirus-Dark";
+      light = "Papirus-Light";
+      package = pkgs.papirus-icon-theme;
+    };
+
     targets.waybar.addCss = false;
   };
 }

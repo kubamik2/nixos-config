@@ -18,18 +18,18 @@
         # "hyprland/window"
       ];
       modules-right = [
+        "tray"
         "mpd"
         "idle_inhibitor"
         "pulseaudio"
         "network"
-        "power-profiles-daemon"
         "cpu"
         "memory"
         "temperature"
         "backlight"
+        "power-profiles-daemon"
         "battery"
         "clock"
-        # "tray"
         "custom/power"
       ];
       # Modules configuration
@@ -101,7 +101,7 @@
         };
       };
       tray = {
-        # icon-size = 21;
+        icon-size = 21;
         spacing = 10;
         # icons = {
         #   blueman = "bluetooth";
@@ -109,7 +109,6 @@
         # };
       };
       clock = {
-        # timezone = "America/New_York";
         tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
         format-alt = "{:%Y-%m-%d}";
       };
@@ -141,12 +140,13 @@
         };
         format = "{capacity}% {icon}";
         format-full = "{capacity}% {icon}";
-        format-charging = "{capacity}% 󰃨";
-        format-plugged = "{capacity}% ";
+        format-charging = "{capacity}% 󰂄";
+        format-plugged = "{capacity}% 󰂄";
         format-alt = "{time} {icon}";
         # format-good = ""; # An empty format will hide the module
         # format-full = "";
-        format-icons = ["" "" "" "" ""];
+        format-icons = ["󰂎" "󰁻" "󰁾" "󰂀" "󰁹"];
+        # format-icons = ["" "" "" "" ""];
       };
       "battery#bat2" = {
         bat = "BAT2";
@@ -166,10 +166,10 @@
         # interface = "wlp2*"; # (Optional) To force the use of this interface
         format-wifi = "{essid} ({signalStrength}%) ";
         format-ethernet = "{ipaddr}/{cidr} 󰊗";
-        tooltip-format = "{ifname} via {gwaddr} 󰊗";
+        tooltip-format = "{ipaddr}";
         format-linked = "{ifname} (No IP) 󰊗";
         format-disconnected = "Disconnected ⚠";
-        format-alt = "{ifname}: {ipaddr}/{cidr}";
+        on-click = "nm-connection-editor";
       };
       pulseaudio = {
         # scroll-step = 1; # %, can be a float
@@ -208,8 +208,8 @@
         menu = "on-click";
         menu-file = "$HOME/.config/waybar/power_menu.xml"; # Menu file in resources folder
         menu-actions = {
-          shutdown = "shutdown now";
-          reboot = "reboot now";
+          shutdown = "hyprshutdown -t 'Shutting down...' --post-cmd 'shutdown -P 0'";
+          reboot = "hyprshutdown -t 'Restarting...' --post-cmd 'reboot'";
           suspend = "systemctl suspend";
           hibernate = "systemctl hibernate";
         };
@@ -217,10 +217,19 @@
     };
     style = ''
       #mpd, #idle_inhibitor, #pulseaudio, #network, #power-profiles-daemon, #cpu, #memory, #temperature, #backlight, #battery, #clock, #tray, #custom-power, #workspaces {
-        padding: 0 6px;
+        padding: 0 8px;
         margin: 4px 2px;
         border-radius: 20px;
         background-color: @base01;
+      }
+
+      #custom-power {
+        color: @base09;
+        margin-right: 4px;
+      }
+
+      #workspaces {
+        margin-left: 4px; 
       }
 
       window#waybar {
@@ -229,9 +238,6 @@
 
       #workspaces button {
           padding: 0 5px;
-      }
-
-      #workspaces button.active, #workspaces button.focused {
       }
     '';
       #idle_inhibitor, #clock, #battery, #cpu, #memory, #network, #pulseaudio, #custom-spotify, #tray, #mode {

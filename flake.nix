@@ -5,7 +5,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixvim_config.url = "github:kubamik2/nixvim_config";
+    nixvim-config = {
+      url = "github:kubamik2/nixvim-config";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     stylix = {
       url = "github:/nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -14,17 +17,24 @@
       url = "github:uiriansan/SilentSDDM";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   outputs = {
     self,
     nixpkgs,
     home-manager,
-    nixvim_config,
+    nixvim-config,
     stylix,
-    silentSDDM
+    silentSDDM,
+    plasma-manager,
   } @ inputs: let
     system = "x86_64-linux";
+    HMbackupFileExtension = "hm-backup";
   in {
     nixosConfigurations = {
       vivobookPro14 = nixpkgs.lib.nixosSystem {
@@ -32,17 +42,35 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./modules/hosts/vivobookPro14/configuration.nix
-          # stylix.nixosModules.stylix
           silentSDDM.nixosModules.default
           home-manager.nixosModules.home-manager
           {
             home-manager = {
+              backupFileExtension = HMbackupFileExtension;
               useGlobalPkgs = true;
               useUserPackages = true;
-              # users.kubamik2 = import ./modules/hosts/vivobookPro14/home.nix;
               users.kubamik2.imports = [
                 ./modules/hosts/vivobookPro14/home.nix
                 stylix.homeModules.stylix
+              ];
+            };
+          }
+        ];
+      };
+      desktop = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./modules/hosts/desktop/configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              backupFileExtension = HMbackupFileExtension;
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.kubamik2.imports = [
+                ./modules/hosts/desktop/home.nix
+                plasma-manager.homeModules.plasma-manager
               ];
             };
           }

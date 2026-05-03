@@ -3,44 +3,44 @@
   ...
 }: {
   imports = [
+    ../../home-manager/user.nix
     ../../home-manager/hyprland
   ];
 
-  home = {
-    username = "kubamik2";
-    homeDirectory = "/home/kubamik2";
-    stateVersion = "26.05";
-    packages = with pkgs; [
-      # Core applications
-      kdePackages.dolphin
-      brightnessctl
-      swaynotificationcenter
-      libnotify
-      hyprshot
+  home.packages = with pkgs; [
+    # Core applications
+    nemo
+    brightnessctl
+    swaynotificationcenter
+    libnotify
+    hyprshot
+    hyprsysteminfo
+    pavucontrol
+    networkmanagerapplet
+    hyprshutdown
+    hyprpolkitagent
 
-      # Applications
+    # Applications
+    discord
 
-      # Desktop environment
-      # hyprlauncher
+    # Desktop environment
 
-      # Utilities
-      unzip
+    # Utilities
+    unzip
 
-      # Programming
-      tree-sitter
-      clang
-      vim
-      ripgrep
-      xclip
-      rustup
+    # Programming
+    tree-sitter
+    clang
+    vim
+    ripgrep
+    xclip
+    rustup
 
-      python314
-      # lua-language-server
+    python314
 
-      # Misc
-      fastfetch
-    ];
-  };
+    # Misc
+    fastfetch
+  ];
 
   programs.bash = {
     enable = true;
@@ -52,4 +52,9 @@
 
   programs.btop.enable = true;
   programs.firefox.enable = true;
+  dconf.settings = {
+    "org/cinnamon/desktop/applications/terminal" = {
+      exec = "alacritty";
+    };
+  };
 }

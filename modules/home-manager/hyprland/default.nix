@@ -11,11 +11,11 @@ inputs: {
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
-      exec-once = "waybar & swaync & hypridle";
+      exec-once = "waybar & swaync & hypridle & systemctl --user start hyprpolkitagent";
       monitor = ",2880x1800@90,auto,2";
 
       "$terminal" = "alacritty";
-      "$fileManager" = "dolphin";
+      "$fileManager" = "nemo";
       "$menu" = "wofi --show drun";
 
       env = [
