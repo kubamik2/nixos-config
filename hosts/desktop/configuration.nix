@@ -7,8 +7,9 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware.nix
-    ../../nixos/gaming.nix
-    ../../nixos/plasma_delay_fix.nix
+    ./wakeup_fix.nix
+    ../../modules/nixos/gaming.nix
+    ../../modules/nixos/plasma_delay_fix.nix
   ];
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -109,13 +110,14 @@
   hardware.nvidia = {
     package = config.boot.kernelPackages.nvidiaPackages.stable;
     modesetting.enable = true;
-    # powerManagement = {
-    #   enable = false;
-    #   finegrained = false;
-    # };
+    powerManagement.enable = true;
     open = true;
     nvidiaSettings = true;
   };
+
+  # Enable Bluetooth
+  hardware.bluetooth.enable = true;
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

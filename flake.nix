@@ -41,7 +41,7 @@
         inherit system;
         specialArgs = { inherit inputs; };
         modules = [
-          ./modules/hosts/vivobookPro14/configuration.nix
+          ./hosts/vivobookPro14/configuration.nix
           silentSDDM.nixosModules.default
           home-manager.nixosModules.home-manager
           {
@@ -50,7 +50,7 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               users.kubamik2.imports = [
-                ./modules/hosts/vivobookPro14/home.nix
+                ./hosts/vivobookPro14/home.nix
                 stylix.homeModules.stylix
               ];
             };
@@ -61,7 +61,7 @@
         inherit system;
         specialArgs = { inherit inputs; };
         modules = [
-          ./modules/hosts/desktop/configuration.nix
+          ./hosts/desktop/configuration.nix
           home-manager.nixosModules.home-manager
           {
             home-manager = {
@@ -69,7 +69,7 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               users.kubamik2.imports = [
-                ./modules/hosts/desktop/home.nix
+                ./hosts/desktop/home.nix
                 plasma-manager.homeModules.plasma-manager
               ];
             };

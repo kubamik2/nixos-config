@@ -3,8 +3,8 @@
   ...
 }: {
   imports = [
-    ../../home-manager/user.nix
-    ../../home-manager/hyprland
+    ../../modules/home-manager/user.nix
+    ../../modules/home-manager/hyprland
   ];
 
   home.packages = with pkgs; [
