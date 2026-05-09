@@ -2,6 +2,7 @@
   imports = [
     ../../modules/home-manager/user.nix
     ../../modules/home-manager/plasma
+    ../../modules/home-manager/alacritty.nix
   ];
 
   programs.bash = {
@@ -27,5 +28,8 @@
     kdePackages.filelight
     kdePackages.kiten
     kdePackages.zanshin
+    tmux
+    fastfetch
+    gimp
   ];
 }

@@ -22,6 +22,7 @@ inputs: {
         acceleration = -0.42;
       }];
     };
+    kwin.effects.shakeCursor.enable = false; # Disable cursor magnification on shake
     kwin.virtualDesktops = {
       rows = 2;
       names = [
@@ -35,18 +36,20 @@ inputs: {
       {
         location = "bottom";
         floating = true;
+        screen = "all";
         widgets = [
           {
             name = "org.kde.plasma.kickoff";
-            config = {
-              General = {
-                icon = "nix-snowflake-white";
-              };
-            };
-
+            config.General.icon = "nix-snowflake";
           }
           "org.kde.plasma.marginsseparator"
-          "org.kde.plasma.pager"
+          {
+            name = "org.kde.plasma.pager";
+            config.General = {
+              showWindowOutlines = false;
+              showOnlyCurrentScreen = true;
+            };
+          }
           "org.kde.plasma.marginsseparator"
           "org.kde.plasma.icontasks"
           "org.kde.plasma.marginsseparator"
@@ -56,5 +59,15 @@ inputs: {
         ];
       }
     ];
+    kwin.edgeBarrier = 0;
+    configFile.kdeglobals.General = {
+      TerminalApplication = "alacritty";
+      TerminalService = "Alacritty.desktop";
+    };
+    shortcuts = {
+      "services/Alacritty.desktop"."_launch" = "Meta+Return";
+    };
+    krunner.shortcuts.launch = "Meta+Space";
+    krunner.shortcuts.runCommandOnClipboard = "Meta+Alt+Space";
   };
 }

@@ -10,12 +10,16 @@
     ./wakeup_fix.nix
     ../../modules/nixos/gaming.nix
     ../../modules/nixos/plasma_delay_fix.nix
+    ../../modules/nixos/nh.nix
   ];
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  # Kernel
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -117,6 +121,13 @@
 
   # Enable Bluetooth
   hardware.bluetooth.enable = true;
+
+  programs.nix-ld = {
+    enable = true;
+    libraries = [
+      (pkgs.runCommand "steamrun-lib" {} "mkdir $out; ln -s ${pkgs.steam-run.fhsenv}/usr/lib64 $out/lib")
+    ];
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
