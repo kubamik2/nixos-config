@@ -34,7 +34,8 @@
     plasma-manager,
   } @ inputs: let
     system = "x86_64-linux";
-    HMbackupFileExtension = "hm-backup";
+    pkgs = nixpkgs.legacyPackages."${system}";
+    HMBackupCommand = "${pkgs.trash-cli}/bin/trash-put";
   in {
     nixosConfigurations = {
       vivobookPro14 = nixpkgs.lib.nixosSystem {
@@ -46,7 +47,7 @@
           home-manager.nixosModules.home-manager
           {
             home-manager = {
-              backupFileExtension = HMbackupFileExtension;
+              backupCommand = HMBackupCommand;
               useGlobalPkgs = true;
               useUserPackages = true;
               users.kubamik2.imports = [
@@ -65,7 +66,7 @@
           home-manager.nixosModules.home-manager
           {
             home-manager = {
-              backupFileExtension = HMbackupFileExtension;
+              backupCommand = HMBackupCommand;
               useGlobalPkgs = true;
               useUserPackages = true;
               users.kubamik2.imports = [

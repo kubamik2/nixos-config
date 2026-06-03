@@ -96,10 +96,16 @@
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     LIBVA_DRIVER_NAME = "nvidia";
     NIXOS_OZONE_WL = "1";
+    HISTCONTROL = "ignoreboth:erasedups";
   };
 
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
+    corefonts
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
+    ipafont
   ];
 
   # Nvidia drivers setup
@@ -128,6 +134,11 @@
       (pkgs.runCommand "steamrun-lib" {} "mkdir $out; ln -s ${pkgs.steam-run.fhsenv}/usr/lib64 $out/lib")
     ];
   };
+
+  programs.ssh.startAgent = true;
+
+  programs.partition-manager.enable = true;
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

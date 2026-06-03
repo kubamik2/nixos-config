@@ -60,6 +60,8 @@ inputs: {
       }
     ];
     kwin.edgeBarrier = 0;
+
+    # Alacritty settings
     configFile.kdeglobals.General = {
       TerminalApplication = "alacritty";
       TerminalService = "Alacritty.desktop";
@@ -67,7 +69,11 @@ inputs: {
     shortcuts = {
       "services/Alacritty.desktop"."_launch" = "Meta+Return";
     };
+
+    # Krunner shortcuts
     krunner.shortcuts.launch = "Meta+Space";
     krunner.shortcuts.runCommandOnClipboard = "Meta+Alt+Space";
+
+    configFile.dolphinrc.General.RememberOpenedTabs = false; # Dolphin don't open closed tabs
   };
 }
