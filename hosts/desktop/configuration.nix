@@ -8,9 +8,9 @@
     # Include the results of the hardware scan.
     ./hardware.nix
     ./wakeup_fix.nix
-    ../../modules/nixos/gaming.nix
-    ../../modules/nixos/plasma_delay_fix.nix
-    ../../modules/nixos/nh.nix
+    ../../modules/gaming.nix
+    ../../modules/plasma_delay_fix.nix
+    ../../modules/nh.nix
   ];
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -61,7 +61,7 @@
   users.users.kubamik2 = {
     isNormalUser = true;
     description = "Jakub Mikuta";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = ["networkmanager" "wheel" "dialout"];
     packages = with pkgs; [];
   };
 
@@ -85,9 +85,43 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    unzip
+    # Development
+    alacritty
+    filezilla
     git
     inputs.nixvim-config.packages.x86_64-linux.default
+    tmux
+
+    # Gaming
+    prismlauncher
+
+    # Graphics
+    gimp
+
+    # Multimedia
+    easyeffects
+    spotify
+    vlc
+
+    # Internet
+    discord
+    firefox
+    thunderbird
+
+    # Office
+    libreoffice
+    obsidian
+
+    # System
+    kdePackages.filelight
+    kdePackages.kalk
+    unzip
+
+    # Utilities
+    fastfetch
+    kdePackages.zanshin
+    keepassxc
+    piper
   ];
 
   environment.variables.EDITOR = "nvim";
@@ -132,13 +166,13 @@
     enable = true;
     libraries = [
       (pkgs.runCommand "steamrun-lib" {} "mkdir $out; ln -s ${pkgs.steam-run.fhsenv}/usr/lib64 $out/lib")
+      config.boot.kernelPackages.nvidia_x11
     ];
   };
 
   programs.ssh.startAgent = true;
 
   programs.partition-manager.enable = true;
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
