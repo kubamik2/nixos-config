@@ -8,9 +8,9 @@
     # Include the results of the hardware scan.
     ./hardware.nix
     ./wakeup_fix.nix
-    ../../modules/gaming.nix
-    ../../modules/plasma_delay_fix.nix
-    ../../modules/nh.nix
+    ../../modules/programs/gaming.nix
+    ../../modules/system/plasma/delay_fix.nix
+    ../../modules/programs/nh.nix
   ];
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
