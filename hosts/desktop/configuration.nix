@@ -8,10 +8,16 @@
     # Include the results of the hardware scan.
     ./hardware.nix
     ./wakeup_fix.nix
-    ../../modules/programs/gaming.nix
-    ../../modules/system/plasma/delay_fix.nix
-    ../../modules/programs/nh.nix
+    ../../modules/default.nix
   ];
+
+  modules = {
+    common.enable = true;
+    nh.enable = true;
+    gaming.enable = true;
+    plasma.enable = true;
+  };
+
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # Bootloader.
@@ -68,10 +74,6 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Enable the KDE Plasma Desktop Environment
-  services.desktopManager.plasma6.enable = true;
-  services.displayManager.plasma-login-manager.enable = true;
-
   # Enable sound with pipewire
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -88,7 +90,6 @@
     # Development
     alacritty
     filezilla
-    git
     inputs.nixvim-config.packages.x86_64-linux.default
     tmux
 
@@ -112,13 +113,7 @@
     libreoffice
     obsidian
 
-    # System
-    kdePackages.filelight
-    kdePackages.kalk
-    unzip
-
     # Utilities
-    fastfetch
     kdePackages.zanshin
     keepassxc
     piper
@@ -132,15 +127,6 @@
     NIXOS_OZONE_WL = "1";
     HISTCONTROL = "ignoreboth:erasedups";
   };
-
-  fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
-    corefonts
-    noto-fonts
-    noto-fonts-cjk-sans
-    noto-fonts-cjk-serif
-    ipafont
-  ];
 
   i18n.inputMethod = {
     enable = true;
@@ -179,8 +165,6 @@
   };
 
   programs.ssh.startAgent = true;
-
-  programs.partition-manager.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
