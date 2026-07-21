@@ -98,6 +98,8 @@
 
     # Graphics
     gimp
+    freecad
+    orca-slicer
 
     # Multimedia
     easyeffects
