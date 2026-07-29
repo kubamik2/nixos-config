@@ -92,6 +92,7 @@
     filezilla
     inputs.nixvim-config.packages.x86_64-linux.default
     tmux
+    arduino-ide
 
     # Gaming
     prismlauncher
