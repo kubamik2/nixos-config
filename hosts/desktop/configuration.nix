@@ -84,51 +84,53 @@
     pulse.enable = true;
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    # Development
-    alacritty
-    filezilla
-    inputs.nixvim-config.packages.x86_64-linux.default
-    tmux
-    arduino-ide
+  environment = {
+    systemPackages = with pkgs; [
+      # Development
+      alacritty
+      filezilla
+      inputs.nixvim-config.packages.x86_64-linux.default
+      tmux
+      arduino-ide
 
-    # Gaming
-    prismlauncher
+      # Gaming
+      prismlauncher
 
-    # Graphics
-    gimp
-    freecad
-    orca-slicer
+      # Graphics
+      gimp
+      freecad
+      orca-slicer
 
-    # Multimedia
-    easyeffects
-    spotify
-    vlc
+      # Multimedia
+      easyeffects
+      spotify
+      vlc
 
-    # Internet
-    discord
-    firefox
-    thunderbird
+      # Internet
+      discord
+      firefox
+      thunderbird
 
-    # Office
-    libreoffice
-    obsidian
+      # Office
+      libreoffice
+      obsidian
 
-    # Utilities
-    kdePackages.zanshin
-    keepassxc
-    piper
-  ];
-
-  environment.variables.EDITOR = "nvim";
-
-  environment.sessionVariables = {
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    LIBVA_DRIVER_NAME = "nvidia";
-    NIXOS_OZONE_WL = "1";
-    HISTCONTROL = "ignoreboth:erasedups";
+      # Utilities
+      kdePackages.zanshin
+      keepassxc
+      piper
+      eza
+    ];
+    variables.EDITOR = "nvim";
+    sessionVariables = {
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+      LIBVA_DRIVER_NAME = "nvidia";
+      NIXOS_OZONE_WL = "1";
+      HISTCONTROL = "ignoreboth:erasedups";
+    };
+    shellAliases = {
+      ls = "eza";
+    };
   };
 
   i18n.inputMethod = {
