@@ -16,6 +16,7 @@
     nh.enable = true;
     gaming.enable = true;
     plasma.enable = true;
+    piper.enable = true;
   };
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
