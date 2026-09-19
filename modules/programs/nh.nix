@@ -4,7 +4,7 @@
   ...
 }:
 helpers.mkOptionalModule config {
-  path = "nh";
+  path = "programs.nh";
   description = "Enable nh";
   moduleConfig = {
     programs.nh = {

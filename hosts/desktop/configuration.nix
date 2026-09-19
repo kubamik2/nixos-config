@@ -13,10 +13,12 @@
 
   modules = {
     common.enable = true;
-    nh.enable = true;
-    gaming.enable = true;
     plasma.enable = true;
-    programs.piper.enable = true;
+    programs = {
+      nh.enable = true;
+      gaming.enable = true;
+      piper.enable = true;
+    };
   };
 
   nix.settings.experimental-features = ["nix-command" "flakes" "pipe-operators"];
