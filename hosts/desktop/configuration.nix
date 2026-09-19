@@ -12,8 +12,10 @@
   ];
 
   modules = {
-    common.enable = true;
-    plasma.enable = true;
+    systems = {
+      common.enable = true;
+      plasma.enable = true;
+    };
     programs = {
       nh.enable = true;
       gaming.enable = true;

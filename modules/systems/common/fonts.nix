@@ -5,7 +5,7 @@
   ...
 }:
 helpers.mkOptionalModule config {
-  path = "common.fonts";
+  path = "systems.common.fonts";
   description = "Enable common fonts";
   moduleConfig = {
     fonts.packages = with pkgs; [

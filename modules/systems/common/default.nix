@@ -8,10 +8,10 @@
   imports = helpers.importAll ./.;
 }
 // helpers.mkOptionalModule config {
-  path = "common";
+  path = "systems.common";
   description = "Enable common modules";
   moduleConfig = {
-    modules.common.fonts.enable = true;
-    modules.common.packages.enable = true;
+    modules.systems.common.fonts.enable = true;
+    modules.systems.common.packages.enable = true;
   };
 }

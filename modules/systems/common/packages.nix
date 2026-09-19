@@ -5,7 +5,7 @@
   ...
 }:
 helpers.mkOptionalModule config {
-  path = "common.packages";
+  path = "systems.common.packages";
   description = "Enable common packages";
   moduleConfig = {
     environment.systemPackages = with pkgs; [
