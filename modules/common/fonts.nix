@@ -1,18 +1,13 @@
 {
-  lib,
+  helpers,
   config,
   pkgs,
   ...
 }:
-let
-  cfg = config.modules.common.fonts;
-in
-{
-  options.modules.common.fonts = {
-    enable = lib.mkEnableOption "Enable common fonts";
-  };
-
-  config = lib.mkIf cfg.enable {
+helpers.mkOptionalModule config {
+  path = "common.fonts";
+  description = "Enable common fonts";
+  moduleConfig = {
     fonts.packages = with pkgs; [
       nerd-fonts.jetbrains-mono
       corefonts

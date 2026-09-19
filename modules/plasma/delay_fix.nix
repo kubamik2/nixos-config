@@ -1,11 +1,8 @@
-{ config, lib, ... }:
-let
-  cfg = config.modules.plasma.delay_fix;
-in
-{
-  options.modules.plasma.delay_fix.enable = lib.mkEnableOption "Enable KDE Plasma delay fix";
-
-  config = lib.mkIf cfg.enable {
+{ config, helpers, ... }:
+helpers.mkOptionalModule config {
+  path = "plasma.delay_fix";
+  description = "Enable KDE Plasma delay fix";
+  moduleConfig = {
     nixpkgs.overlays = [
       (final: prev: {
         kdePackages = prev.kdePackages.overrideScope (
@@ -57,5 +54,6 @@ in
         );
       })
     ];
+
   };
 }

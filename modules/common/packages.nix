@@ -1,18 +1,13 @@
 {
+  helpers,
   pkgs,
-  lib,
   config,
   ...
 }:
-let
-  cfg = config.modules.common.packages;
-in
-{
-  options.modules.common.packages = {
-    enable = lib.mkEnableOption "Enable common packages";
-  };
-
-  config = lib.mkIf cfg.enable {
+helpers.mkOptionalModule config {
+  path = "common.packages";
+  description = "Enable common packages";
+  moduleConfig = {
     environment.systemPackages = with pkgs; [
       unzip
       fastfetch

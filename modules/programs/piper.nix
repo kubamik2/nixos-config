@@ -1,17 +1,13 @@
 {
+  helpers,
   pkgs,
-  lib,
   config,
   ...
 }:
-let
-  moduleName = "piper";
+helpers.mkOptionalModule config {
+  path = "programs.piper";
   description = "Enable piper";
-in
-{
-  options.modules.${moduleName}.enable = lib.mkEnableOption description;
-
-  config = lib.mkIf config.modules.${moduleName}.enable {
+  moduleConfig = {
     environment.systemPackages = [ pkgs.piper ];
     services.ratbagd.enable = true;
   };

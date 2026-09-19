@@ -1,18 +1,16 @@
-{ lib, config, ... }:
-let
-  cfg = config.modules.nh;
-in
 {
-  imports = [
-    ./fonts.nix
-    ./packages.nix
-  ];
-
-  options.modules.common = {
-    enable = lib.mkEnableOption "Enable common modules";
-  };
-
-  config = lib.mkIf cfg.enable {
+  lib,
+  helpers,
+  config,
+  ...
+}:
+{
+  imports = helpers.importAll ./.;
+}
+// helpers.mkOptionalModule config {
+  path = "common";
+  description = "Enable common modules";
+  moduleConfig = {
     modules.common.fonts.enable = true;
     modules.common.packages.enable = true;
   };

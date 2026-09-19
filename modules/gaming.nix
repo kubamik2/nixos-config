@@ -1,16 +1,13 @@
 {
-  pkgs,
-  lib,
   config,
+  pkgs,
+  helpers,
   ...
 }:
-let
-  cfg = config.modules.gaming;
-in
-{
-  options.modules.gaming.enable = lib.mkEnableOption "Enable various gaming programs";
-
-  config = lib.mkIf cfg.enable {
+helpers.mkOptionalModule config {
+  path = "gaming";
+  description = "Enable various gaming programs";
+  moduleConfig = {
     programs.steam = {
       enable = true;
       gamescopeSession.enable = true;

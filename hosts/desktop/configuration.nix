@@ -16,10 +16,10 @@
     nh.enable = true;
     gaming.enable = true;
     plasma.enable = true;
-    piper.enable = true;
+    programs.piper.enable = true;
   };
 
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.experimental-features = ["nix-command" "flakes" "pipe-operators"];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;

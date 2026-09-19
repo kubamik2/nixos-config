@@ -1,5 +1,3 @@
-inputs: {
-  imports = [
-    ./piper.nix
-  ];
+{ helpers, ... }: {
+  imports = helpers.importAll ./.;
 }
