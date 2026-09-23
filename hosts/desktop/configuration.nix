@@ -65,8 +65,26 @@
   # Configure console keymap
   console.keyMap = "pl2";
 
-  # Enable CUPS to print documents
-  services.printing.enable = true;
+  # Enable various printing services
+  services.printing = {
+    enable = true;
+    drivers = with pkgs; [
+      cups-filters
+      cups-browsed
+      brgenml1lpr
+    ];
+  };
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+  hardware = {
+    sane = {
+      enable = true;
+      brscan5.enable = true;
+    };
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kubamik2 = {
