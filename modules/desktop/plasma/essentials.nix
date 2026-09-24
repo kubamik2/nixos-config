@@ -5,7 +5,7 @@
   ...
 }:
 helpers.mkOptionalModule config {
-  path = "systems.plasma.essentials";
+  path = "desktop.plasma.essentials";
   description = "Enable essential programs for KDE Plasma";
   moduleConfig = {
     environment.systemPackages = with pkgs; [

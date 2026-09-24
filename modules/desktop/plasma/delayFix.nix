@@ -1,9 +1,9 @@
 { config, helpers, ... }:
 helpers.mkOptionalModule config {
-  path = "systems.plasma.delay_fix";
+  path = "desktop.plasma.delayFix";
   description = "Enable KDE Plasma delay fix";
   moduleConfig = {
-    systemd.user.services.plasma_delay_fix = {
+    systemd.user.services.plasma-delay-fix = {
       enable = true;
       wantedBy = [ "default.target" ];
       script = ''

@@ -5,7 +5,7 @@
   ...
 }:
 helpers.mkOptionalModule config {
-  path = "programs.gaming";
+  path = "profiles.gaming";
   description = "Enable various gaming programs";
   moduleConfig = {
     programs.steam = {

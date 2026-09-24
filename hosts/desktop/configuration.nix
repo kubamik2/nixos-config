@@ -3,27 +3,34 @@
   inputs,
   config,
   ...
-}: {
+}:
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware.nix
-    ./wakeup_fix.nix
+    ./wakeupFix.nix
     ../../modules/default.nix
   ];
 
   modules = {
-    systems = {
-      common.enable = true;
+    core.enable = true;
+    desktop = {
       plasma.enable = true;
     };
     programs = {
       nh.enable = true;
-      gaming.enable = true;
       piper.enable = true;
+    };
+    profiles = {
+      gaming.enable = true;
     };
   };
 
-  nix.settings.experimental-features = ["nix-command" "flakes" "pipe-operators"];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+    "pipe-operators"
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -90,8 +97,12 @@
   users.users.kubamik2 = {
     isNormalUser = true;
     description = "Jakub Mikuta";
-    extraGroups = ["networkmanager" "wheel" "dialout"];
-    packages = with pkgs; [];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "dialout"
+    ];
+    packages = [ ];
   };
 
   # Allow unfree packages
@@ -187,7 +198,7 @@
   programs.nix-ld = {
     enable = true;
     libraries = [
-      (pkgs.runCommand "steamrun-lib" {} "mkdir $out; ln -s ${pkgs.steam-run.fhsenv}/usr/lib64 $out/lib")
+      (pkgs.runCommand "steamrun-lib" { } "mkdir $out; ln -s ${pkgs.steam-run.fhsenv}/usr/lib64 $out/lib")
       config.boot.kernelPackages.nvidia_x11
     ];
   };
