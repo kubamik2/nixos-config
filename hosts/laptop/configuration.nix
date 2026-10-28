@@ -122,6 +122,10 @@
       inputs.nixvim-config.packages.x86_64-linux.default
       tmux
       arduino-ide
+      jetbrains.idea
+      openjdk25
+      uv
+      vscodium
 
       # Graphics
       gimp
