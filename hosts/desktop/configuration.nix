@@ -118,6 +118,20 @@
     pulse.enable = true;
   };
 
+  virtualisation.docker = {
+    enable = false;
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+      daemon.settings = {
+        dns = [ "1.1.1.1" "8.8.8.8" ];
+        registry-mirrors = [ "https://mirror.gcr.io" ];
+        features.cdi = true;
+      };
+    };
+  };
+  hardware.nvidia-container-toolkit.enable = true;
+
   environment = {
     systemPackages = with pkgs; [
       # Development
