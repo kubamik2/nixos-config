@@ -6,7 +6,7 @@
 }:
 helpers.mkOptionalModule config {
   path = "core.fonts";
-  description = "Enable common fonts";
+  description = "Enable core fonts";
   moduleConfig = {
     fonts.packages = with pkgs; [
       nerd-fonts.jetbrains-mono

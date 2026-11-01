@@ -6,7 +6,7 @@
 }:
 helpers.mkOptionalModule config {
   path = "core.packages";
-  description = "Enable common packages";
+  description = "Enable core packages";
   moduleConfig = {
     environment.systemPackages = with pkgs; [
       unzip

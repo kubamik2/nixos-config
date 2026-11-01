@@ -1,12 +1,10 @@
 {
   pkgs,
-  inputs,
   config,
   ...
 }:
 {
   imports = [
-    # Include the results of the hardware scan.
     ./hardware.nix
     ./wakeupFix.nix
     ../../modules/default.nix
@@ -21,80 +19,45 @@
       nh.enable = true;
       piper.enable = true;
       pipewire.enable = true;
+      neovim.enable = true;
     };
     profiles = {
       gaming.enable = true;
+      printing = {
+        enable = true;
+        brother.enable = true;
+      };
     };
   };
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-    "pipe-operators"
-  ];
+  # Boot
+  boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+  };
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Networking
+  networking = {
+    hostName = "nixos-desktop";
+    networkmanager.enable = true;
+  };
 
-  # Kernel
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-
-  # Set your time zone.
+  # Time zone
   time.timeZone = "Europe/Warsaw";
 
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "pl_PL.UTF-8";
-    LC_IDENTIFICATION = "pl_PL.UTF-8";
-    LC_MEASUREMENT = "pl_PL.UTF-8";
-    LC_MONETARY = "pl_PL.UTF-8";
-    LC_NAME = "pl_PL.UTF-8";
-    LC_NUMERIC = "pl_PL.UTF-8";
-    LC_PAPER = "pl_PL.UTF-8";
-    LC_TELEPHONE = "pl_PL.UTF-8";
-    LC_TIME = "pl_PL.UTF-8";
-  };
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "pl";
-    variant = "";
-  };
-
-  # Configure console keymap
-  console.keyMap = "pl2";
-
-  # Enable various printing services
-  services.printing = {
+  # Input method
+  i18n.inputMethod = {
     enable = true;
-    drivers = with pkgs; [
-      cups-filters
-      cups-browsed
-      brgenml1lpr
+    type = "fcitx5";
+    fcitx5.addons = [
+      pkgs.fcitx5-mozc
     ];
   };
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    openFirewall = true;
-  };
-  hardware = {
-    sane = {
-      enable = true;
-      brscan5.enable = true;
-    };
-  };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # User
   users.users.kubamik2 = {
     isNormalUser = true;
     description = "Jakub Mikuta";
@@ -106,15 +69,11 @@
     packages = [ ];
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  environment = {
-    systemPackages = with pkgs; [
+  # Packages
+  environment.systemPackages = with pkgs; [
       # Development
       alacritty
       filezilla
-      inputs.nixvim-config.packages.x86_64-linux.default
       tmux
       arduino-ide
 
@@ -145,9 +104,23 @@
       keepassxc
       piper
       eza
-    ];
+  ];
 
-    variables.EDITOR = "nvim";
+  # Programs
+  programs = {
+    direnv.enable = true;
+    ssh.startAgent = true;
+    nix-ld = {
+      enable = true;
+      libraries = [
+        (pkgs.runCommand "steamrun-lib" { } "mkdir $out; ln -s ${pkgs.steam-run.fhsenv}/usr/lib64 $out/lib")
+        config.boot.kernelPackages.nvidia_x11
+      ];
+    };
+  };
+
+  # Environment
+  environment = {
     sessionVariables = {
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
       LIBVA_DRIVER_NAME = "nvidia";
@@ -159,17 +132,7 @@
     };
   };
 
-  programs.direnv.enable = true;
-
-  i18n.inputMethod = {
-    enable = true;
-    type = "fcitx5";
-    fcitx5.addons = [
-      pkgs.fcitx5-mozc
-    ];
-  };
-
-  # Nvidia drivers setup
+  # GPU drivers
   services.xserver.videoDrivers = [
     "modesetting"
     "nvidia"
@@ -186,43 +149,9 @@
     nvidiaSettings = true;
   };
 
-  # Enable Bluetooth
+  # Bluetooth
   hardware.bluetooth.enable = true;
 
-  programs.nix-ld = {
-    enable = true;
-    libraries = [
-      (pkgs.runCommand "steamrun-lib" { } "mkdir $out; ln -s ${pkgs.steam-run.fhsenv}/usr/lib64 $out/lib")
-      config.boot.kernelPackages.nvidia_x11
-    ];
-  };
-
-  programs.ssh.startAgent = true;
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.11"; # Did you read the comment?
+  # Do not change
+  system.stateVersion = "25.11";
 }
