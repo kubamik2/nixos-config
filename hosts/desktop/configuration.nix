@@ -155,6 +155,7 @@
       piper
       eza
     ];
+
     variables.EDITOR = "nvim";
     sessionVariables = {
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
@@ -166,6 +167,8 @@
       ls = "eza";
     };
   };
+
+  programs.direnv.enable = true;
 
   i18n.inputMethod = {
     enable = true;
