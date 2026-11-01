@@ -19,6 +19,7 @@
     programs = {
       nh.enable = true;
       piper.enable = true;
+      pipewire.enable = true;
     };
   };
 
@@ -103,16 +104,6 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
-  # Enable sound with pipewire
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
 
   environment = {
     systemPackages = with pkgs; [
