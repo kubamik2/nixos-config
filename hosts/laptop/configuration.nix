@@ -89,6 +89,7 @@
     keepassxc
     piper
     eza
+    stow
   ];
 
   # Programs
