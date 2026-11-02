@@ -14,5 +14,6 @@ helpers.mkOptionalModule config {
     ];
 
     programs.partition-manager.enable = true;
+    programs.kde-pim.enable = false;
   };
 }
