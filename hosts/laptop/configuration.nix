@@ -88,7 +88,6 @@
     # Utilities
     kdePackages.zanshin
     keepassxc
-    piper
     stow
   ];
 
