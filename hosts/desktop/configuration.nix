@@ -70,6 +70,9 @@
     packages = [ ];
   };
 
+  # Needed for Keychron Launcher
+  services.udev.packages = [ pkgs.keychron-udev-rules ];
+
   # Packages
   environment.systemPackages = with pkgs; [
       # Development
