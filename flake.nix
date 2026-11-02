@@ -2,6 +2,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixvim-config.url = "github:kubamik2/nixvim-config";
+    nix-templates.url = "github:kubamik2/nix-templates";
   };
 
   outputs =

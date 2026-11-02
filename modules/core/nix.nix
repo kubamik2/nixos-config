@@ -1,6 +1,7 @@
 {
   helpers,
   config,
+  inputs,
   ...
 }:
 helpers.mkOptionalModule config {
@@ -12,6 +13,7 @@ helpers.mkOptionalModule config {
       "flakes"
       "pipe-operators"
     ];
+    nix.registry.templates.flake = inputs.nix-templates;
     nixpkgs.config.allowUnfree = true;
   };
 }
