@@ -20,6 +20,7 @@
       piper.enable = true;
       pipewire.enable = true;
       neovim.enable = true;
+      eza.enable = true;
     };
     profiles = {
       gaming.enable = true;
@@ -103,7 +104,6 @@
       kdePackages.zanshin
       keepassxc
       piper
-      eza
       stow
   ];
 
@@ -127,9 +127,6 @@
       LIBVA_DRIVER_NAME = "nvidia";
       NIXOS_OZONE_WL = "1";
       HISTCONTROL = "ignoreboth:erasedups";
-    };
-    shellAliases = {
-      ls = "eza";
     };
   };
 

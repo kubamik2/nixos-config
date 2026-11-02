@@ -20,6 +20,7 @@
       piper.enable = true;
       pipewire.enable = true;
       neovim.enable = true;
+      eza.enable = true;
     };
     profiles = {
       printing.enable = true;
@@ -88,7 +89,6 @@
     kdePackages.zanshin
     keepassxc
     piper
-    eza
     stow
   ];
 
@@ -109,9 +109,6 @@
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
       HISTCONTROL = "ignoreboth:erasedups";
-    };
-    shellAliases = {
-      ls = "eza";
     };
   };
 
