@@ -130,6 +130,7 @@
       NIXOS_OZONE_WL = "1";
       HISTCONTROL = "ignoreboth:erasedups";
     };
+    shellAliases.gh-add-key = "ssh-add ~/.ssh/github";
   };
 
   # GPU drivers
