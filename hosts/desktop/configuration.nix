@@ -38,6 +38,7 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
+    binfmt.emulatedSystems = ["aarch64-linux"]; # Mainly used for building derivations for rpi4
   };
 
   # Networking
