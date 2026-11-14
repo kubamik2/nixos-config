@@ -21,6 +21,10 @@
       pipewire.enable = true;
       neovim.enable = true;
       eza.enable = true;
+      agenix = {
+        enable = true;
+        enabledKeys = [ "github" "rpi4NixSigningKey" ];
+      };
     };
     profiles = {
       gaming.enable = true;
@@ -38,8 +42,11 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    binfmt.emulatedSystems = ["aarch64-linux"]; # Mainly used for building derivations for rpi4
+    binfmt.emulatedSystems = [ "aarch64-linux" ]; # Mainly used for building derivations for rpi4
   };
+
+  # Nix signing keys
+  nix.settings.secret-key-files = [ config.age.secrets.rpi4NixSigningKey.path ];
 
   # Networking
   networking = {
@@ -76,44 +83,43 @@
 
   # Packages
   environment.systemPackages = with pkgs; [
-      # Development
-      alacritty
-      filezilla
-      tmux
-      arduino-ide
+    # Development
+    alacritty
+    filezilla
+    tmux
+    arduino-ide
 
-      # Gaming
-      prismlauncher
+    # Gaming
+    prismlauncher
 
-      # Graphics
-      gimp
-      freecad
-      orca-slicer
+    # Graphics
+    gimp
+    freecad
+    orca-slicer
 
-      # Multimedia
-      easyeffects
-      spotify
-      vlc
+    # Multimedia
+    easyeffects
+    spotify
+    vlc
 
-      # Internet
-      discord
-      firefox
-      thunderbird
+    # Internet
+    discord
+    firefox
+    thunderbird
 
-      # Office
-      libreoffice
-      obsidian
+    # Office
+    libreoffice
+    obsidian
 
-      # Utilities
-      kdePackages.zanshin
-      keepassxc
-      stow
+    # Utilities
+    kdePackages.zanshin
+    keepassxc
+    stow
   ];
 
   # Programs
   programs = {
     direnv.enable = true;
-    ssh.startAgent = true;
     nix-ld = {
       enable = true;
       libraries = [
@@ -121,6 +127,19 @@
         config.boot.kernelPackages.nvidia_x11
       ];
     };
+  };
+
+  # SSH config
+  programs.ssh = {
+    startAgent = true;
+    extraConfig = ''
+      Host github.com
+        HostName github.com
+        User kubamik2
+        AddKeysToAgent 60m
+        IdentityFile = ${config.age.secrets.github.path}
+        IdentitiesOnly yes
+    '';
   };
 
   # Environment
@@ -153,6 +172,15 @@
 
   # Bluetooth
   hardware.bluetooth.enable = true;
+
+  # OpenSSH
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      PermitRootLogin = "no";
+    };
+  };
 
   # Do not change
   system.stateVersion = "25.11";

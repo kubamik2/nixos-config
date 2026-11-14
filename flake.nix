@@ -5,6 +5,13 @@
 
     nixvim-config.url = "github:kubamik2/nixvim-config";
     nix-templates.url = "github:kubamik2/nix-templates";
+
+    agenix.url = "github:ryantm/agenix";
+
+    secrets = {
+      url = "git+ssh://git@github.com/kubamik2/secrets.git";
+      flake = false;
+    };
   };
 
   outputs =
@@ -14,14 +21,17 @@
       nixpkgs-stable,
       nixvim-config,
       nix-templates,
+      secrets,
+      agenix,
     }@inputs:
     let
+      agenixRegistry = import "${secrets}/agenixRegistry.nix";
       specialArgsUnstable = {
-        inherit inputs;
+        inherit inputs agenixRegistry;
         helpers = import ./helpers nixpkgs-unstable.lib;
       };
       specialArgsStable = {
-        inherit inputs;
+        inherit inputs agenixRegistry;
         helpers = import ./helpers nixpkgs-stable.lib;
       };
     in
@@ -32,6 +42,7 @@
           specialArgs = specialArgsUnstable;
           modules = [
             ./hosts/desktop/configuration.nix
+            agenix.nixosModules.default
           ];
         };
         laptop = nixpkgs-unstable.lib.nixosSystem {

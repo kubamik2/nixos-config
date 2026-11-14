@@ -3,11 +3,16 @@ lib: config:
   path,
   description,
   moduleConfig,
+  options ? { },
 }:
 let
-  listPath = [ "modules" ] ++ (lib.splitString "." path) ++ [ "enable" ];
+  listPath = [ "modules" ] ++ (lib.splitString "." path);
+  enableOption = { enable = lib.mkEnableOption description; };
+  otherOptions = builtins.mapAttrs (name: value: lib.mkOption value) options;
+  allOptions = enableOption // otherOptions;
+  allOptionsWithPath = lib.setAttrByPath (["options"] ++ listPath) allOptions;
 in
-(lib.setAttrByPath ([ "options" ] ++ listPath) (lib.mkEnableOption description))
+allOptionsWithPath
 // {
-  config = lib.mkIf (lib.getAttrFromPath listPath config) moduleConfig;
+  config = lib.mkIf (lib.getAttrFromPath (listPath ++ [ "enable" ]) config) moduleConfig;
 }
