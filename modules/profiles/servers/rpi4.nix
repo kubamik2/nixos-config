@@ -6,7 +6,7 @@
 }:
 helpers.mkOptionalModule config {
   path = "profiles.servers.rpi4";
-  description = "";
+  description = "Raspberry Pi 4 server profile";
   moduleConfig = {
     # Agenix config
     modules.programs.agenix = {
