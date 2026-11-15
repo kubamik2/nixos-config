@@ -22,10 +22,6 @@
       pipewire.enable = true;
       neovim.enable = true;
       eza.enable = true;
-      agenix = {
-        enable = true;
-        enabledKeys = [ "github" ];
-      };
     };
     profiles = {
       gaming.enable = true;
@@ -34,6 +30,7 @@
         brother.enable = true;
       };
       servers.rpi4.enable = true;
+      github.enable = true;
     };
   };
 
@@ -127,19 +124,6 @@
     };
   };
 
-  # SSH config
-  programs.ssh = {
-    startAgent = true;
-    extraConfig = ''
-      Host github.com
-        HostName github.com
-        User kubamik2
-        AddKeysToAgent 60m
-        IdentityFile ${config.age.secrets.github.path}
-        IdentitiesOnly yes
-    '';
-  };
-
   # Environment
   environment = {
     sessionVariables = {
@@ -148,7 +132,6 @@
       NIXOS_OZONE_WL = "1";
       HISTCONTROL = "ignoreboth:erasedups";
     };
-    shellAliases.gh-add-key = "ssh-add ~/.ssh/github";
   };
 
   # GPU drivers
