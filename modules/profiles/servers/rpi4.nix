@@ -8,6 +8,22 @@ helpers.mkOptionalModule config {
   path = "profiles.servers.rpi4";
   description = "";
   moduleConfig = {
+    # Agenix config
+    modules.programs.agenix = {
+      enable = true;
+      enabledKeys = [
+        "rpi4SSH"
+        "rpi4NixSigningKey"
+      ];
+    };
+
+    # Nix signing keys
+    nix.settings.secret-key-files = [ config.age.secrets.rpi4NixSigningKey.path ];
+
+    # Used for building systems remotely
+    boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; 
+
+    # SSH config
     programs.ssh = {
       hosts = {
         rpi4 = {

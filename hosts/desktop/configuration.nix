@@ -24,11 +24,7 @@
       eza.enable = true;
       agenix = {
         enable = true;
-        enabledKeys = [
-          "github"
-          "rpi4NixSigningKey"
-          "rpi4SSH"
-        ];
+        enabledKeys = [ "github" ];
       };
     };
     profiles = {
@@ -48,11 +44,7 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    binfmt.emulatedSystems = [ "aarch64-linux" ]; # Mainly used for building derivations for rpi4
   };
-
-  # Nix signing keys
-  nix.settings.secret-key-files = [ config.age.secrets.rpi4NixSigningKey.path ];
 
   # Networking
   networking = {
