@@ -37,6 +37,7 @@
         enable = true;
         brother.enable = true;
       };
+      servers.rpi4.enable = true;
     };
   };
 
@@ -144,19 +145,7 @@
         AddKeysToAgent 60m
         IdentityFile ${config.age.secrets.github.path}
         IdentitiesOnly yes
-
-      Host rpi4
-        HostName 192.168.33.122
-        User admin
-        IdentityFile ${config.age.secrets.rpi4SSH.path}
-        IdentitiesOnly yes
     '';
-    knownHosts = {
-      rpi4 = {
-        publicKey = agenixRegistry.machines.rpi4;
-        hostNames = [ "192.168.33.122" ];
-      };
-    };
   };
 
   # Environment
