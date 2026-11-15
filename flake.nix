@@ -50,6 +50,7 @@
           specialArgs = specialArgsUnstable;
           modules = [
             ./hosts/laptop/configuration.nix
+            agenix.nixosModules.default
           ];
         };
         rpi4 = nixpkgs-stable.lib.nixosSystem {
@@ -57,6 +58,7 @@
           specialArgs = specialArgsStable;
           modules = [
             ./hosts/rpi4/configuration.nix
+            agenix.nixosModules.default
           ];
         };
       };

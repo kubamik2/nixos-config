@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  agenixRegistry,
   ...
 }:
 {
@@ -23,7 +24,11 @@
       eza.enable = true;
       agenix = {
         enable = true;
-        enabledKeys = [ "github" "rpi4NixSigningKey" ];
+        enabledKeys = [
+          "github"
+          "rpi4NixSigningKey"
+          "rpi4SSH"
+        ];
       };
     };
     profiles = {
@@ -137,9 +142,21 @@
         HostName github.com
         User kubamik2
         AddKeysToAgent 60m
-        IdentityFile = ${config.age.secrets.github.path}
+        IdentityFile ${config.age.secrets.github.path}
+        IdentitiesOnly yes
+
+      Host rpi4
+        HostName 192.168.33.122
+        User admin
+        IdentityFile ${config.age.secrets.rpi4SSH.path}
         IdentitiesOnly yes
     '';
+    knownHosts = {
+      rpi4 = {
+        publicKey = agenixRegistry.machines.rpi4;
+        hostNames = [ "192.168.33.122" ];
+      };
+    };
   };
 
   # Environment

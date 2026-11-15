@@ -33,6 +33,16 @@
   networking = {
     hostName = "nixos-rpi4";
     networkmanager.enable = true;
+    interfaces.wlan0 = {
+      ipv4.addresses = [{
+        address = "192.168.33.122";
+        prefixLength = 24;
+      }];
+    };
+    defaultGateway = {
+      address = "192.168.33.1";
+      interface = "wlan0";
+    };
   };
 
   # Time zone
@@ -43,7 +53,7 @@
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     packages = with pkgs; [ ];
-    openssh.authorizedKeys.keys = agenixRegistry.roles.admins;
+    openssh.authorizedKeys.keys = [ agenixRegistry.keys.rpi4SSH.public ];
   };
   nix.settings.trusted-public-keys = [ agenixRegistry.keys.rpi4NixSigningKey.public ];
 
