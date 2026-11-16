@@ -1,7 +1,7 @@
 {
   inputs = {
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
+    nixpkgsPersonal.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgsServer.url = "github:nixos/nixpkgs/nixos-unstable";
 
     nixvim-config.url = "github:kubamik2/nixvim-config";
     nix-templates.url = "github:kubamik2/nix-templates";
@@ -17,8 +17,8 @@
   outputs =
     {
       self,
-      nixpkgs-unstable,
-      nixpkgs-stable,
+      nixpkgsPersonal,
+      nixpkgsServer,
       nixvim-config,
       nix-templates,
       secrets,
@@ -26,36 +26,36 @@
     }@inputs:
     let
       agenixRegistry = import "${secrets}/agenixRegistry.nix";
-      specialArgsUnstable = {
+      specialArgsPersonal = {
         inherit inputs agenixRegistry;
-        helpers = import ./helpers nixpkgs-unstable.lib;
+        helpers = import ./helpers nixpkgsPersonal.lib;
       };
-      specialArgsStable = {
+      specialArgsServer = {
         inherit inputs agenixRegistry;
-        helpers = import ./helpers nixpkgs-stable.lib;
+        helpers = import ./helpers nixpkgsServer.lib;
       };
     in
     {
       nixosConfigurations = {
-        desktop = nixpkgs-unstable.lib.nixosSystem {
+        desktop = nixpkgsPersonal.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = specialArgsUnstable;
+          specialArgs = specialArgsPersonal;
           modules = [
             ./hosts/desktop/configuration.nix
             agenix.nixosModules.default
           ];
         };
-        laptop = nixpkgs-unstable.lib.nixosSystem {
+        laptop = nixpkgsPersonal.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = specialArgsUnstable;
+          specialArgs = specialArgsPersonal;
           modules = [
             ./hosts/laptop/configuration.nix
             agenix.nixosModules.default
           ];
         };
-        rpi4 = nixpkgs-stable.lib.nixosSystem {
+        rpi4 = nixpkgsServer.lib.nixosSystem {
           system = "aarch64-linux";
-          specialArgs = specialArgsStable;
+          specialArgs = specialArgsServer;
           modules = [
             ./hosts/rpi4/configuration.nix
             agenix.nixosModules.default
