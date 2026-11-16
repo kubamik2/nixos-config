@@ -67,7 +67,8 @@
     tmux
     arduino-ide
     jetbrains.idea
-    openjdk25
+    jdk25
+    (jdk.override { enableJavaFX = true; })
     uv
     vscodium
 
