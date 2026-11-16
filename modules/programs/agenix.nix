@@ -3,6 +3,8 @@
   helpers,
   lib,
   agenixRegistry,
+  pkgs,
+  inputs,
   ...
 }:
 let
@@ -22,5 +24,7 @@ helpers.mkOptionalModule config {
     age.secrets = lib.attrsets.filterAttrs (
       name: value: builtins.elem name config.modules.programs.agenix.enabledKeys
     ) privateKeyDefinitions;
+
+    environment.systemPackages = [ inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default ];
   };
 }
