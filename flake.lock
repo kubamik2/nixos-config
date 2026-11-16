@@ -170,11 +170,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1794746205,
-        "narHash": "sha256-Glw1RZ+A2hI8BtpmfbJjzFBvGx4QJEikX4Cb/mk8IV8=",
+        "lastModified": 1794836246,
+        "narHash": "sha256-bUu9n6Qgg/7G6R4cn6bzMVB/ei7QXbSqg6NSr1nTH38=",
         "ref": "refs/heads/main",
-        "rev": "6afbcbebb026055216abdc5b9072068ce665768f",
-        "revCount": 8,
+        "rev": "dd729095bb06b2138e2fbfef3feb3656abe8dcc8",
+        "revCount": 10,
         "type": "git",
         "url": "ssh://git@github.com/kubamik2/secrets.git"
       },
