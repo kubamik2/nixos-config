@@ -24,6 +24,8 @@
     };
     profiles = {
       printing.enable = true;
+      github.enable = true;
+      servers.rpi4.enable = true;
     };
   };
 
@@ -65,7 +67,8 @@
     tmux
     arduino-ide
     jetbrains.idea
-    openjdk25
+    jdk25
+    (jdk.override { enableJavaFX = true; })
     uv
     vscodium
 
@@ -109,7 +112,6 @@
       NIXOS_OZONE_WL = "1";
       HISTCONTROL = "ignoreboth:erasedups";
     };
-    shellAliases.gh-add-key = "ssh-add ~/.ssh/github";
   };
 
   # Power profiles
@@ -145,6 +147,15 @@
 
   # Bluetooth
   hardware.bluetooth.enable = true;
+
+  # OpenSSH
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      PermitRootLogin = "no";
+    };
+  };
 
   # Do not change
   system.stateVersion = "25.11";

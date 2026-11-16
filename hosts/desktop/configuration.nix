@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  agenixRegistry,
   ...
 }:
 {
@@ -28,6 +29,8 @@
         enable = true;
         brother.enable = true;
       };
+      servers.rpi4.enable = true;
+      github.enable = true;
     };
   };
 
@@ -75,44 +78,43 @@
 
   # Packages
   environment.systemPackages = with pkgs; [
-      # Development
-      alacritty
-      filezilla
-      tmux
-      arduino-ide
+    # Development
+    alacritty
+    filezilla
+    tmux
+    arduino-ide
 
-      # Gaming
-      prismlauncher
+    # Gaming
+    prismlauncher
 
-      # Graphics
-      gimp
-      freecad
-      orca-slicer
+    # Graphics
+    gimp
+    freecad
+    orca-slicer
 
-      # Multimedia
-      easyeffects
-      spotify
-      vlc
+    # Multimedia
+    easyeffects
+    spotify
+    vlc
 
-      # Internet
-      discord
-      firefox
-      thunderbird
+    # Internet
+    discord
+    firefox
+    thunderbird
 
-      # Office
-      libreoffice
-      obsidian
+    # Office
+    libreoffice
+    obsidian
 
-      # Utilities
-      kdePackages.zanshin
-      keepassxc
-      stow
+    # Utilities
+    kdePackages.zanshin
+    keepassxc
+    stow
   ];
 
   # Programs
   programs = {
     direnv.enable = true;
-    ssh.startAgent = true;
     nix-ld = {
       enable = true;
       libraries = [
@@ -130,7 +132,6 @@
       NIXOS_OZONE_WL = "1";
       HISTCONTROL = "ignoreboth:erasedups";
     };
-    shellAliases.gh-add-key = "ssh-add ~/.ssh/github";
   };
 
   # GPU drivers
@@ -152,6 +153,15 @@
 
   # Bluetooth
   hardware.bluetooth.enable = true;
+
+  # OpenSSH
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      PermitRootLogin = "no";
+    };
+  };
 
   # Do not change
   system.stateVersion = "25.11";

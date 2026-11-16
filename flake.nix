@@ -1,29 +1,64 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgsPersonal.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgsServer.url = "github:nixos/nixpkgs/nixos-unstable";
+
     nixvim-config.url = "github:kubamik2/nixvim-config";
     nix-templates.url = "github:kubamik2/nix-templates";
+
+    agenix.url = "github:ryantm/agenix";
+
+    secrets = {
+      url = "git+ssh://git@github.com/kubamik2/secrets.git";
+      flake = false;
+    };
   };
 
   outputs =
-    { self, nixpkgs, ... }@inputs:
+    {
+      self,
+      nixpkgsPersonal,
+      nixpkgsServer,
+      nixvim-config,
+      nix-templates,
+      secrets,
+      agenix,
+    }@inputs:
     let
-      helpers = import ./helpers nixpkgs.lib;
+      agenixRegistry = import "${secrets}/agenixRegistry.nix";
+      specialArgsPersonal = {
+        inherit inputs agenixRegistry;
+        helpers = import ./helpers nixpkgsPersonal.lib;
+      };
+      specialArgsServer = {
+        inherit inputs agenixRegistry;
+        helpers = import ./helpers nixpkgsServer.lib;
+      };
     in
     {
       nixosConfigurations = {
-        desktop = nixpkgs.lib.nixosSystem {
+        desktop = nixpkgsPersonal.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs helpers; };
+          specialArgs = specialArgsPersonal;
           modules = [
             ./hosts/desktop/configuration.nix
+            agenix.nixosModules.default
           ];
         };
-        laptop = nixpkgs.lib.nixosSystem {
+        laptop = nixpkgsPersonal.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs helpers; };
+          specialArgs = specialArgsPersonal;
           modules = [
             ./hosts/laptop/configuration.nix
+            agenix.nixosModules.default
+          ];
+        };
+        rpi4 = nixpkgsServer.lib.nixosSystem {
+          system = "aarch64-linux";
+          specialArgs = specialArgsServer;
+          modules = [
+            ./hosts/rpi4/configuration.nix
+            agenix.nixosModules.default
           ];
         };
       };
